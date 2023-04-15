@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expence Tracker</title>
+</head>
+<body>
+  <form onsubmit="saveToLocalStorage(event)">
+  <label for="name" id="name">Expence</label>
+  <input type="number" name="name" id="idName" placeholder="enter Expence">
+  <label for="email" id="email">description</label>
+  <input type="text" name="email" id="idEmail" placeholder="enter description">
+  <label for="phone" id="phone">category</label>
+  <input type="text" name="phone" id="idPhone" placeholder="enter category">
+  <button type="submit">Submit</button>
+</form>
+<ul id="listOfitem"></ul>
+  <script>
+    // const name = document.getElementsByClassName('name');
+    // console.log(name);
+    // localStorage.setItem('myname',name);
+    // console.log(localStorage.getItem('myname'));
+    function saveToLocalStorage(event){
+      // console.log(1);
+      // console.log(1);
+      event.preventDefault();
+      const name = event.target.name.value;
+      const email = event.target.email.value;
+      const phone = event.target.phone.value;
+    //  localStorage.setItem('name',name);
+    //  localStorage.setItem('email',email);
+    //  localStorage.setItem('phone',phone);
+     const obj = {
+      name,
+      email,
+      phone
+      
+     }
+     //
+     localStorage.setItem(obj.email,JSON.stringify(obj));
+    showOnScreen(obj)
+    }
+    // console.log(1);
+    function showOnScreen(obj){
+      const parentElem = document.getElementById('listOfitem')
+      
+      const childElem = document.createElement('li')
+      childElem.textContent = obj.name + '-' + obj.email + '-' + obj.phone  
+
+      const deleteButton = document.createElement('input')
+      deleteButton.type = 'button'
+      deleteButton.value = 'Delete Expense'
+
+      deleteButton.onclick = () => {
+        localStorage.removeItem(obj.email)
+        parentElem.removeChild(childElem)
+      } 
+
+      childElem.appendChild(deleteButton);
+      const editButton = document.createElement('input')
+       editButton.type = 'button'
+       editButton.value = 'Edit Expense'
+       
+       editButton.onclick = () =>{
+      
+     document.getElementById('idName').value = obj.name 
+     document.getElementById('idEmail').value = obj.email
+     document.getElementById('idPhone').value = obj.phone
+        localStorage.removeItem(obj.email)
+        parentElem.removeChild(childElem)
+       }
+       childElem.appendChild(editButton);
+       parentElem.appendChild(childElem);   
+    }
+  </script>
+</body>
+</html>
